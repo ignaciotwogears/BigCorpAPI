@@ -17,6 +17,7 @@ jobs:
     - name: login
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PWD }}
     - name: Build
+      working-directory: ./Api
       run:  docker build -f dockerfile -t bigcorpapi:latest .
     - name: Tags
       run: |
