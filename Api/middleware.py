@@ -6,7 +6,7 @@ def getEmployees(limit,offset):
     return res
 
 
-def getPendingEmployees(ls):
+def getEmployeesByIds(ls):
     
     glue = "&id="
     ids = glue.join([str(i) for i in ls])

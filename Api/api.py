@@ -16,7 +16,7 @@ api = Api(app)
 class SingleEmployee(Resource):
     def get(self, emp_id):
         expanders = request.args.getlist('expand')
-        rawData = middleware.getPendingEmployees([emp_id])
+        rawData = middleware.getEmployeesByIds([emp_id])
         pdData = pandasTools.formatDataframe(rawData)
         print(pdData)
         startExpanders(expanders,rawData,pdData)

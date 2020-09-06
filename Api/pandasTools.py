@@ -17,7 +17,7 @@ def formatDataframe(rawData):
     
     ls = getOrphanFrames(df)
     while(len(ls) >0):
-        pendingData = middleware.getPendingEmployees(ls)
+        pendingData = middleware.getEmployeesByIds(ls)
 
         pdFrame = pd.DataFrame.from_dict(pendingData)
         frames = [df, pdFrame]
