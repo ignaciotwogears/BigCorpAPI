@@ -31,6 +31,14 @@ def getEmployees(limit,offset):
     res = r.json()
     return res
 
+def addOffice(obj):
+    print(obj)
+    for F in OFFICES:
+        if obj['office'] == F['id']:
+            obj['office'] = F
+
+
+
 def addDepartment(obj,tile):
     for o in obj:        
         for D in DEPARTAMETS:                        
@@ -47,7 +55,6 @@ def addSuperDepartment(obj,tile):
 
 
 def addManager(obj,tile,actualKey,pdData):
-    
 
     for o in obj:
         manager = o.get('manager')
@@ -72,6 +79,9 @@ def expand(keys,obj,template):
 
     elif (actualKey == "superdepartment"):
         addSuperDepartment(obj,tile)
+    
+    elif (actualKey == "office"):
+        addOffice(obj[0])
 
 
 def startExpanders(expanders,response,pdData):
