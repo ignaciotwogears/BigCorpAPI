@@ -1,11 +1,9 @@
 from flask import Flask,request
 from flask_restful import reqparse, abort, Api, Resource
 import pandas as pd
-
-import traceback
 import requests
 import json
-import copy
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -31,13 +29,21 @@ def getEmployees(limit,offset):
     res = r.json()
     return res
 
+
+def getPendingEmployees(ls):
+    
+    glue = "&id="
+    ids = glue.join([str(i) for i in ls])
+    req = "https://rfy56yfcwk.execute-api.us-west-1.amazonaws.com/bigcorp/employees?id=" +ids
+    print(req)
+    r = requests.get(req)
+    return r.json()
+    
+    
 def addOffice(obj):
-    print(obj)
     for F in OFFICES:
         if obj['office'] == F['id']:
             obj['office'] = F
-
-
 
 def addDepartment(obj,tile):
     for o in obj:        
@@ -52,13 +58,15 @@ def addSuperDepartment(obj,tile):
     for D in DEPARTAMETS:    
         if obj['superdepartment'] == D['id']:
             obj['superdepartment'] = D
+            if len(tile) > 0:
+                    expand(tile,obj['superdepartment'],None)
 
 
 def addManager(obj,tile,actualKey,pdData):
 
     for o in obj:
         manager = o.get('manager')
-        findedItem = pdData.query(f'id == {manager}' )#.to_dict()
+        findedItem = pdData.query(f'id == {manager}')
         if not findedItem.empty:
             findedItem = findedItem.to_dict()
             o['manager']  = formatedItem(findedItem)
@@ -90,20 +98,6 @@ def startExpanders(expanders,response,pdData):
 
 
 
-
-def getPendingEmployees(ls):
-    
-    glue = "&id="
-    ids = glue.join([str(i) for i in ls])
-    req = "https://rfy56yfcwk.execute-api.us-west-1.amazonaws.com/bigcorp/employees?id=" +ids
-    print(req)
-    r = requests.get(req)
-    return r.json()
-    
-
-
-
-
 def formatedItem(item):
     ret = {}
     for i in item:   
@@ -121,8 +115,8 @@ def formatedItem(item):
                 value = None
         
         ret[i] = value
-
     return ret
+
 
 def formatLS(ls):
     cp = []
@@ -140,7 +134,6 @@ def getOrphanFrames(df):
     ls = [p for p in orphans]
     formatLs = formatLS(ls)
     ls = list(dict.fromkeys(formatLs))
-    
     return ls
 
 
@@ -157,25 +150,34 @@ def formatDataframe(df):
     return df
 
 
+
+class SingleEmployee(Resource):
+    def get(self, emp_id):
+        expanders = request.args.getlist('expand')
+        rawData = getPendingEmployees([emp_id])
+        pdData = pd.DataFrame.from_dict(rawData)
+        pdData = formatDataframe(pdData)
+        print(pdData)
+        startExpanders(expanders,rawData,pdData)
+        return rawData
+        
 class Employees(Resource):
     def get(self):
-        
-        
+                
         limit = int(request.args.get('limit'))
         offset = int(request.args.get('offset'))
         expanders = request.args.getlist('expand')
         rawData = getEmployees(limit,offset)
         
         pdData = pd.DataFrame.from_dict(rawData)
-        pdData =formatDataframe(pdData)
-        startExpanders(expanders,rawData,pdData)
-        
+        pdData = formatDataframe(pdData)
+        print(pdData)
+        startExpanders(expanders,rawData,pdData)    
         return rawData
 
 
-
 api.add_resource(Employees, '/employees')
-
+api.add_resource(SingleEmployee, '/employees/<emp_id>')
 
 if __name__ == '__main__':
     loadResources()
