@@ -23,7 +23,6 @@ def addSuperDepartment(obj,tile):
 
 
 def addManager(obj,tile,actualKey,pdData):
-
     for o in obj:
         manager = o.get('manager')
         findedItem = pdData.query(f'id == {manager}')
