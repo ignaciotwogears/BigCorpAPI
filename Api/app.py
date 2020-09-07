@@ -13,6 +13,17 @@ app = Flask(__name__)
 api = Api(app)
 settings.init()
 
+class SingleDepartment(Resource):
+    def get(self, dept_id):
+        tools.checkExpanders()
+        expanders = request.args.getlist('expand')
+        dept = []
+        for d in settings.DEPARTAMETS:            
+            if d["id"] == int(dept_id):
+                dept = d
+        
+        xp.startExpanders(expanders,dept,None)
+        return dept
 
 class SingleEmployee(Resource):
     # Return an employee detail
@@ -63,6 +74,7 @@ class Employees(Resource):
 
 api.add_resource(Employees, '/employees')
 api.add_resource(SingleEmployee, '/employees/<emp_id>')
+api.add_resource(SingleDepartment, '/departments/<dept_id>')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000,debug=True)
