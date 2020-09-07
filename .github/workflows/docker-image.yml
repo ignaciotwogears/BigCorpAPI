@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Testing and Docker CI
 
 on:
   push:
@@ -14,6 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Run Tests
+      run: |
+        python -m pytest
     - name: login
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PWD }}
     - name: Build
