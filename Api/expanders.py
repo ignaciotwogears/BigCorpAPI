@@ -11,7 +11,7 @@ def addDepartment(obj,tile):
             if o['department'] == D['id']:
                 o['department'] = D                
                 if len(tile) > 0:
-                    expand(tile,o['department'],None)
+                    expand(tile,o['department'],None) #(recursive)
 
 
 def addSuperDepartment(obj,tile):    
@@ -19,7 +19,7 @@ def addSuperDepartment(obj,tile):
         if obj['superdepartment'] == D['id']:
             obj['superdepartment'] = D
             if len(tile) > 0:
-                    expand(tile,obj['superdepartment'],None)
+                    expand(tile,obj['superdepartment'],None) #(recursive)
 
 
 def addManager(obj,tile,actualKey,pdData):
@@ -31,9 +31,9 @@ def addManager(obj,tile,actualKey,pdData):
             o['manager']  = tools.formatedItem(findedItem)
              
             if len(tile) > 0: 
-                expand(tile,[o['manager']],pdData)
+                expand(tile,[o['manager']],pdData) # (recursive)
         
-
+# While there exists pending expansions it will be called recursively
 def expand(keys,obj,template):
     actualKey = keys[0]
     tile = keys[1:]
@@ -50,7 +50,7 @@ def expand(keys,obj,template):
     elif (actualKey == "office"):
         addOffice(obj[0])
 
-
+# Launch all the given expanders 
 def startExpanders(expanders,response,pdData):
     for exp in expanders:
         expand(exp.split("."),response,pdData)
