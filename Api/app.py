@@ -11,7 +11,7 @@ import pandasTools
 
 app = Flask(__name__)
 api = Api(app)
-
+settings.init()
 
 class SingleEmployee(Resource):
     def get(self, emp_id):
@@ -23,7 +23,8 @@ class SingleEmployee(Resource):
         return rawData
         
 class Employees(Resource):
-    def get(self):                
+    def get(self):
+               
         limit = int(request.args.get('limit'))
         offset = int(request.args.get('offset'))
         expanders = request.args.getlist('expand')
@@ -38,5 +39,7 @@ api.add_resource(Employees, '/employees')
 api.add_resource(SingleEmployee, '/employees/<emp_id>')
 
 if __name__ == '__main__':
-    settings.init()
-    app.run(host='0.0.0.0', port=8000)
+    
+    #app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8000,debug=False)
+    
