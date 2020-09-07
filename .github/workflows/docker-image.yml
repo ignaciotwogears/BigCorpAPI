@@ -30,7 +30,7 @@ jobs:
          python -m pytest  
        
   build:
-
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
