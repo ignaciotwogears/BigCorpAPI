@@ -1,7 +1,7 @@
 # Big Corp API
 ## Python + Flask + Pandas + Docker + Kubernetes
 
-The idea of this challenge is to develop an **API** with the capability to serve a big amount of data that is obtained from an external service in quota without overuse its endpoints and give a fast response even with 1000 records.
+The idea of this project is to develop an **API** with the capability to serve a big amount of data that is obtained from an external service in quota without overuse its endpoints and give a fast response even with 1000 records.
 To reach that goal, and after trying 2 or 3 perspectives on testings codes, I decided that the best option was to use the **Pandas** Library to minimize the iterations and speed up times.
 Also, I decide to use Flask as a framework for this development because is light and practical for minimalist projects, and in this case, we don't need a database or catching system.
 
