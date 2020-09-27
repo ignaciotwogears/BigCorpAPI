@@ -1,4 +1,5 @@
 # Big Corp API
+## Python + Flask + Pandas + Docker + Kubernetes
 
 The idea of this challenge is to develop an **API** with the capability to serve a big amount of data that is obtained from an external service in quota without overuse its endpoints and give a fast response even with 1000 records.
 To reach that goal, and after trying 2 or 3 perspectives on testings codes, I decided that the best option was to use the **Pandas** Library to minimize the iterations and speed up times.
@@ -62,7 +63,7 @@ http://localhost:31006/
 The call :
 
 ```sh
-http://localhost:8000/employees?limit=3&expand=department.superdepartment&expand=manager.office
+http://localhost:8000/employees?limit=10&offset=10&expand=department.superdepartment&expand=manager.office
 ```
 returns the following json data:
 
@@ -449,7 +450,6 @@ https://rfy56yfcwk.execute-api.us-west-1.amazonaws.com/bigcorp/employees?id=100
 [1712 rows x 6 columns]
 ``` 
 
-As you can see, I have put all my effort to avoid the overuse of the external service and also in the speed of response. 
 I hope you have enjoyed reading this project and of course I am open to any suggestions and improvements.
 
 
