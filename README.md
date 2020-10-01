@@ -1,5 +1,5 @@
 # Big Corp API
-## Python + Flask + Pandas + Docker + Kubernetes
+## Python + Flask + Pandas + Docker + Kubernetes + CI and testing with Github Actions 
 
 The idea of this project is to develop an **API** with the capability to serve a big amount of data that is obtained from an external service in quota without overuse its endpoints and give a fast response even with 1000 records.
 To reach that goal, and after trying 2 or 3 perspectives on testings codes, I decided that the best option was to use the **Pandas** Library to minimize the iterations and speed up times.
